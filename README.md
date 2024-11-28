@@ -1,0 +1,99 @@
+# COSMIT: National Health Agency (NHA)
+
+## Orbit Hackathon Documentation  
+**Event**: Orbit Engineering Hacks  
+**Team**: COSMIT  
+
+### 🧑‍🤝‍🧑 Team Members  
+1. **Gajananda Adhikari** - *Conceptualization, Review, Documentation, Presentation*  
+2. **Nischal Khanal** - *Backend Programming*  
+3. **Ujjwal Dhakal** - *Database Programming*  
+4. **Anil Gyawali** - *Frontend Programming*  
+
+---
+
+## 📌 Project Title: **National Health Agency (NHA)**  
+
+### 💡 Project Idea  
+- A **Decision Support System** for health administration and policymakers.  
+- Provides **nationwide health statistics** for informed decision-making.  
+- Acts as a **centralized system** for visualizing and monitoring health trends.  
+
+---
+
+## 📝 **Description**  
+The **National Health Agency (NHA)** is a transformative digital platform aimed at revolutionizing healthcare management across the nation. By leveraging cutting-edge technologies, it ensures equitable access to quality healthcare, supports policy implementation, and enhances decision-making through robust data visualization and monitoring tools.
+
+### 🌟 Key Features:  
+
+1. **📊 Dashboard to Monitor Health Equity**  
+   - Interactive visualizations (charts, maps) to analyze trends.  
+   - Exportable insights for policymaking.  
+
+2. **📈 Results Framework**  
+   - Tracks progress toward health goals using data from routine systems and surveys.  
+   - Strengthens performance measurement and accountability.  
+
+3. **📋 Routine Data Quality Assessment (RDQA)**  
+   - Ensures high-quality data collection and analysis.  
+   - Focuses on indicator definition and statistical evaluations.  
+
+4. **🏥 Health Facility Registry**  
+   - Nationwide directory of public and private health facilities.  
+   - Provides search features for nearby services and professionals.  
+
+5. **🌐 Nationwide Geolocation & Analytics**  
+   - Geospatial tools to identify healthcare hotspots and underserved areas.  
+   - Supports equitable resource allocation.  
+
+---
+
+## 💻 Development Environment  
+
+### **Tech Stack**  
+- **Client-Side**: React.js, Tailwind CSS  
+- **Server-Side**: Node.js, Express.js  
+- **Database**: PostgreSQL, SQLite  
+- **Tools**: Postman  
+
+### **Hardware**  
+| Device              | Specs                                         |
+|---------------------|-----------------------------------------------|
+| Acer Aspire 5       | i7-13 Gen, 8GB DDR5 RAM, 512GB SSD           |
+| Dell Vostro 15      | i3-6100U, 12GB DDR4 RAM, 1TB HDD, 256GB SSD  |
+| Asus Vivobook       | i7-5500U, 8GB DDR4 RAM, 512GB HDD            |
+| Dell Inspiron       | i7-8550U, 8GB DDR4 RAM, 1TB HDD, 256GB SSD   |
+
+Other tools:  
+- **Peripherals**: RedDragon Wired Mechanical Keyboard, Fintech Orbit HG25  
+- **Accessories**: Notebooks, Pens  
+
+### **Software**  
+| Platform           | Tools                                       |
+|--------------------|---------------------------------------------|
+| **OS**             | Arch Linux, Windows 11                     |
+| **Editors**        | Neovim, VS Code                             |
+| **Web Tools**      | Figma (Design), Canva (Presentation)        |
+| **Assistants**     | ChatGPT, Discord (Communication)            |
+| **Documentation**  | Notion, GitHub                              |
+
+---
+
+## 🧑‍💼 **Stakeholders and Beneficiaries**  
+
+- **Healthcare Administrators**: Resource allocation and performance monitoring.  
+- **Policymakers**: Guiding healthcare policies and ensuring equitable delivery.  
+- **General Public**: Accessing nearby facilities and service details.  
+- **Researchers**: High-quality health data for analysis.  
+
+---
+
+## ⚠️ Limitations  
+
+1. **Data Inconsistencies**: Nationwide databases may lack uniform standards.  
+2. **Data Privacy**: Ensuring compliance with regulations like GDPR or HIPAA.  
+3. **System Compatibility**: Challenges in integrating with legacy healthcare systems.  
+
+---
+
+*COSMIT: Building the future of healthcare with data-driven solutions.* 🌐
