@@ -65,5 +65,7 @@ const findProvinceByDistrict = (districtName) => {
     return 'NULL';
 }
 
-module.exports = findProvinceByDistrict;
+module.exports = {
+    findProvinceByDistrict
+};
 

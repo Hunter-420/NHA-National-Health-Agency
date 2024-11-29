@@ -2,29 +2,35 @@ const pool_local = require('../db/db');
 
 const calculateTopDiseaseAndSave = async () => {
     try {
-        // Step 1: Get the case counts for each disease in each district
+        // Step 1: Get the case counts for each disease in each district, including the timestamp
         const result = await pool_local.query(`
-            SELECT hos_district, case_name, COUNT(*) AS case_count
+            SELECT hos_district, case_name, timestamp
             FROM tbl_patient
-            GROUP BY hos_district, case_name
-            ORDER BY hos_district, case_count DESC
         `);
 
         const diseaseData = result.rows;
 
-        // Step 2: Process and insert top disease for each district
+        // Step 2: Process and insert top disease for each district, considering timestamp
         const diseaseMap = {};
 
         diseaseData.forEach(row => {
-            const { hos_district, case_name, case_count } = row;
+            const { hos_district, case_name, timestamp } = row;
 
             // If we haven't encountered this district yet or found a higher case count
-            if (!diseaseMap[hos_district] || diseaseMap[hos_district].case_count < case_count) {
+            if (!diseaseMap[hos_district]) {
                 diseaseMap[hos_district] = {
                     disease_name: case_name,
                     hos_district,
-                    case_count,
+                    case_count: 1, // Start with 1 since we're counting this case
+                    timestamp, // Store the timestamp
                 };
+            } else {
+                // Increment case count and check if timestamp is later
+                diseaseMap[hos_district].case_count += 1;
+                // Update timestamp to the latest if needed (you can adjust this logic if needed)
+                if (new Date(diseaseMap[hos_district].timestamp) < new Date(timestamp)) {
+                    diseaseMap[hos_district].timestamp = timestamp;
+                }
             }
         });
 
@@ -33,14 +39,14 @@ const calculateTopDiseaseAndSave = async () => {
         const placeholders = [];
 
         Object.values(diseaseMap).forEach((entry, index) => {
-            insertValues.push(entry.disease_name, entry.hos_district, entry.case_count);
-            const offset = index * 3; // 3 fields per row
-            placeholders.push(`($${offset + 1}, $${offset + 2}, $${offset + 3})`);
+            insertValues.push(entry.disease_name, entry.hos_district, entry.case_count, entry.timestamp);
+            const offset = index * 4; // 4 fields per row (disease_name, hos_district, value, timestamp)
+            placeholders.push(`($${offset + 1}, $${offset + 2}, $${offset + 3}, $${offset + 4})`);
         });
 
         if (insertValues.length > 0) {
             const insertQuery = `
-                INSERT INTO tbl_disease (disease_name, hos_district, value)
+                INSERT INTO tbl_disease (disease_name, hos_district, value, timestamp)
                 VALUES ${placeholders.join(', ')}
             `;
 
@@ -72,7 +78,7 @@ const findTrendyDisease = async () => {
                 disease_name: row.disease_name,
                 total_cases: row.total_cases
             }));
-            console.log('Top diseases found:', topDiseases);
+
             return topDiseases;
         } else {
             console.log('No disease data found in tbl_disease.');
@@ -95,14 +101,10 @@ const getWeeklyCaseCount = async () => {
             return [];
         }
 
-        console.log('Top Diseases:', topDiseases);
-
         // Get current timestamp and timestamp of 7 days ago
         const currentDate = new Date();
         const lastWeekDate = new Date();
         lastWeekDate.setDate(currentDate.getDate() - 7);
-
-        console.log('Date Range:', lastWeekDate, currentDate);
 
         // Convert dates to ISO strings for the query
         const currentDateString = currentDate.toISOString();
@@ -110,7 +112,6 @@ const getWeeklyCaseCount = async () => {
 
         // Fetch weekly case count for each trendy disease
         const weeklyCounts = await Promise.all(topDiseases.map(async (disease) => {
-            console.log('Querying for Disease:', disease.disease_name);
 
             const weeklyCountResult = await pool_local.query(`
                 SELECT TO_CHAR(timestamp, 'Day') AS day_of_week, COUNT(*) AS cases
@@ -132,7 +133,6 @@ const getWeeklyCaseCount = async () => {
             };
         }));
 
-        console.log('Weekly case counts fetched:', weeklyCounts);
         return weeklyCounts;
 
     } catch (err) {
@@ -141,8 +141,31 @@ const getWeeklyCaseCount = async () => {
     }
 };
 
+const findMostTrendyDisease = async (req, res) => {
+    try {
+        // First, call the findTrendyDisease function to get the top 3 diseases
+        const topDiseases = await findTrendyDisease();
+
+        if (topDiseases.length > 0) {
+            // Find the disease with the highest total cases from the top 3
+            const topDisease = topDiseases.reduce((max, disease) => {
+                return disease.total_cases > max.total_cases ? disease : max;
+            });
+            return topDisease;
+        } else {
+            console.log('No top diseases available.');
+            return null;
+        }
+
+    } catch (err) {
+        console.error('Error finding top disease among the top 3:', err);
+        throw err;
+    }
+}
+
 module.exports = {
     calculateTopDiseaseAndSave,
     findTrendyDisease,
     getWeeklyCaseCount,
+    findMostTrendyDisease
 }
