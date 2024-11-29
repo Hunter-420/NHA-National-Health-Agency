@@ -30,19 +30,19 @@ class DiseaseChart extends Component {
 
         const options = {
             animationEnabled: true,
-            backgroundColor: "#2256CC", // Set background color
+            backgroundColor: "transparent", // Set background color
             title: {
                 text: "Disease Analysis in Nepal",
-                fontColor: "#00FFFF" // Set title font color to white
+                fontColor: "blue" // Set title font color to white
             },
             axisY: {
                 title: "", // Number of Patients Affected
-                labelFontColor: "white", // Set Y-axis labels font color to white
-                titleFontColor: "white",  // Set Y-axis title font color to white
+                labelFontColor: "blue", // Set Y-axis labels font color to white
+                titleFontColor: "black",  // Set Y-axis title font color to white
                 gridThickness: 0  // Hide the horizontal grid lines
             },
             axisX: {
-                labelFontColor: "white" // Set X-axis labels font color to white
+                labelFontColor: "black" // Set X-axis labels font color to white
             },
             toolTip: {
                 shared: true,
@@ -59,7 +59,7 @@ class DiseaseChart extends Component {
                 fontColor: "black" // Set tooltip text color to white
             },
             legend: {
-                fontColor: "white" // Set legend font color to white
+                fontColor: "black" // Set legend font color to white
             },
             data: diseaseData.map((disease, index) => ({
                 type: "spline",
@@ -77,7 +77,7 @@ class DiseaseChart extends Component {
         };
 
         return (
-            <div>
+            <div style={{ width: "100%", height: "400px", overflow: "hidden" }}>
                 <CanvasJSChart options={options} />
             </div>
         );
@@ -85,4 +85,3 @@ class DiseaseChart extends Component {
 }
 
 export default DiseaseChart;
-

@@ -13,16 +13,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Parent Route */}
         <Route path="/" element={<Layout />}>
 
         <Route index element={<MainContent/> } />
-          {/* Child Routes */}
           <Route path="overview" element={<Overview />} />
  <Route path="district" element={<District />} />
           <Route path="department" element={<Department />} />
           <Route path="hospital" element={<Hosptital />} />
           <Route path="summary" element={<Summary />} /> */
+
         </Route>
       </Routes>
     </BrowserRouter>
