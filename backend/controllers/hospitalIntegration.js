@@ -22,7 +22,6 @@ const getHibData = async (req, res) => {
                 } = row;
 
                 const updatedDistrict = extractDistrict(hos_address)
-                console.log(updatedDistrict);
                 
                 // Add the values for this row to the values array
                 values.push(
