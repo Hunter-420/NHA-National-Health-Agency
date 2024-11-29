@@ -12,7 +12,7 @@ const navItems = [
 
 const Sidebar = () => {
   return (
-    <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-[rgba(229,230,232,1)] dark:border-[#2252fe]">
+    <aside className="flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-[rgba(229,230,232,1)] border-r border-blue-400 fixed top-0 left-0 z-40">
       <h1 className="w-auto h-7 text-[rgba(86,106,216,1)] text-center">NHA</h1>
 
       <div className="flex flex-col justify-between flex-1 mt-6">
@@ -22,25 +22,24 @@ const Sidebar = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex   items-center px-3 py-3 gap-x-2 transition-colors duration-300 transform rounded-xl ${
+                `flex items-center px-3 py-3 gap-x-2 transition-colors duration-300 transform rounded-xl ${
                   isActive
-                    ? "bg-[rgba(136,234,218,1)] text-gray-700"
-                    : "bg-white text-gray-600"
+                    ? "bg-[#c9ea88] text-gray-700" // Active state background
+                    : "bg-white text-gray-600" // Non-active state background
                 }`
               }
             >
-                <div className="flex justify-center items-center gap-3 relative left-8">
-
-              <div className="flex-shrink-0">{item.icon}</div>
-              <span
-                className="text-sm font-medium"
-                style={{
-                  color: "rgba(86,106,216,1)",
-                }}
+              <div className="flex justify-center items-center gap-3 relative left-4">
+                <div className="flex-shrink-0">{item.icon}</div>
+                <span
+                  className="text-sm font-medium"
+                  style={{
+                    color: "rgba(86,106,216,1)",
+                  }}
                 >
-                {item.title}
-              </span>
-                </div>
+                  {item.title}
+                </span>
+              </div>
             </NavLink>
           ))}
         </nav>
