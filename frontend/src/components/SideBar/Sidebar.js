@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { FaHome, FaBuilding, FaHospital, FaChartLine } from "react-icons/fa";
 
 const navItems = [
-  { title: "Overview", path: "/overview", icon: <FaHome className="w-5 h-5" fill="rgba(86,106,216,1)" /> },
+  { title: "Overview", path: "/", icon: <FaHome className="w-5 h-5" fill="rgba(86,106,216,1)" /> },
   { title: "District", path: "/district", icon: <FaBuilding className="w-5 h-5" fill="rgba(86,106,216,1)" /> },
   { title: "Department", path: "/department", icon: <FaBuilding className="w-5 h-5" fill="rgba(86,106,216,1)" /> },
   { title: "Hospital", path: "/hospital", icon: <FaHospital className="w-5 h-5" fill="rgba(86,106,216,1)" /> },

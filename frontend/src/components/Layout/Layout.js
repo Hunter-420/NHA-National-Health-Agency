@@ -7,9 +7,10 @@ function Layout() {
   return (
     <div className="flex">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar className="w-[250px] fixed top-0 bottom-0 left-0 bg-[#2d2d2d] text-white pt-5" />
 
-      <div className="flex flex-col w-full">
+      {/* Main content area (where the Outlet will render) */}
+      <div className="flex flex-col w-full ml-[250px]">
         {/* Navbar */}
         <Navbar />
 

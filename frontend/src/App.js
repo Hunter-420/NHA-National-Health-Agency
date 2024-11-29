@@ -7,6 +7,8 @@ import Department from './pages/Department';
 import Hosptital from './pages/Hosptital';
 import Summary from './pages/Summary';
 import MainContent from './components/MainContent/MainContent';
+import SpecificDiseaseProvinceBarChart from './components/graphs/SpecificDiseaseProvionceBarChart';
+import Provience from './pages/Provience';
 
 
 function App() {
@@ -21,6 +23,9 @@ function App() {
           <Route path="department" element={<Department />} />
           <Route path="hospital" element={<Hosptital />} />
           <Route path="summary" element={<Summary />} /> */
+          <Route path='province/:diseaseName' element={<SpecificDiseaseProvinceBarChart/>}/>
+          <Route path='province/:provinceName/:diseaseName' element={<Provience/>}/>
+
 
         </Route>
       </Routes>
