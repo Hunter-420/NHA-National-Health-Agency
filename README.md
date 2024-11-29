@@ -1,7 +1,7 @@
 # COSMIT: National Health Agency (NHA)
 
 ## Orbit Hackathon Documentation  
-**Event**: Orbit Engineering Hacks  
+**Event**: Orbit Engineering Hacks 2024 
 **Team**: COSMIT  
 
 ### 🧑‍🤝‍🧑 Team Members  
