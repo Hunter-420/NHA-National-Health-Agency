@@ -4,7 +4,7 @@ import TopDiseaseCase from '../graphs/TopDiseaseCase';
 
 function MainContent() {
   return (
-    <main className="flex-1 bg-gray-100 pl-9 pt-5 ml-64">
+    <main className="flex-1 h-full bg-gray-100  pt-5 ">
       <h1 className="text-5xl font-semibold text-gray-700 mb-4">
         Generating national health insights.<br />
         Securing the Future.

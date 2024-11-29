@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SpecificDiseaseProvinceBarChart = () => {
-  const { diseaseName } = useParams(); // Extract disease name from URL
+  const { diseaseName } = useParams(); // Get disease name from the URL
+  const navigate = useNavigate(); // Get navigate function
+  
   const [chartData, setChartData] = useState({
-    labels: ['Province 1', 'Province 2', 'Province 3', 'Province 4', 'Province 5', 'Province 6', 'Province 7'],
+    labels: ['Province1', 'Province2', 'Province3', 'Province4', 'Province5', 'Province6', 'Province7'],
     datasets: [
       {
         label: 'No. of Admitted Patients',
@@ -20,7 +22,7 @@ const SpecificDiseaseProvinceBarChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Dummy data - Replace this with PostgreSQL integration
+      // Dummy data - Replace this with your data fetching logic
       const dummyData = [120, 350, 200, 180, 400, 190, 100];
 
       // Calculate highest and lowest values
@@ -48,6 +50,20 @@ const SpecificDiseaseProvinceBarChart = () => {
 
     fetchData();
   }, []);
+
+  // Function to handle click on a bar
+  const handleBarClick = (event) => {
+    const chart = event.chart;
+    const activePoints = chart.getElementsAtEventForMode(event.native, 'nearest', { intersect: true }, true);
+
+    if (activePoints.length > 0) {
+      const clickedIndex = activePoints[0].index; 
+      let provinceName = chartData.labels[clickedIndex]; 
+      provinceName = provinceName.replace(/\s+/g, '').toLowerCase();
+    
+      navigate(`/province/${provinceName}/${diseaseName}`);
+    }
+  };
 
   const options = {
     plugins: {
@@ -107,6 +123,7 @@ const SpecificDiseaseProvinceBarChart = () => {
         },
       },
     },
+    onClick: handleBarClick, // Attach the click handler to the chart
   };
 
   return (
@@ -131,4 +148,3 @@ const SpecificDiseaseProvinceBarChart = () => {
 };
 
 export default SpecificDiseaseProvinceBarChart;
-

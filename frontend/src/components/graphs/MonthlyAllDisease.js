@@ -17,7 +17,7 @@ const DiseaseChart = () => {
     };
 
     const handleLineClick = (diseaseName) => {
-        navigate(`/disease/${diseaseName}`); // Use navigate to redirect
+        navigate(`/province/${diseaseName}`); // Use navigate to redirect
     };
 
     const diseaseData = [
