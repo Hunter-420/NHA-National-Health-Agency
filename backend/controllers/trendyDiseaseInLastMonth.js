@@ -5,7 +5,6 @@ const getMonthlyCase = async (req, res) => {
     try {
         // Step 1: Get trendy diseases
         const trendyDiseasesData = await findTrendyDisease();
-        console.log('Trendy diseases data:', trendyDiseasesData);
 
         if (!trendyDiseasesData || trendyDiseasesData.length === 0) {
             return res.status(404).json({ message: 'No trendy diseases found' });
@@ -13,7 +12,6 @@ const getMonthlyCase = async (req, res) => {
 
         // Extract just the disease names from the data
         const trendyDiseases = trendyDiseasesData.map(d => d.disease_name);
-        console.log('Trendy disease names:', trendyDiseases);
 
         // Step 2: Prepare query to fetch counts for the last 4 weeks
         const diseaseCountsQuery = `
@@ -31,15 +29,10 @@ const getMonthlyCase = async (req, res) => {
                 case_name;
         `;
 
-        console.log('Executing query:', diseaseCountsQuery);
-        console.log('Query parameters:', [trendyDiseases]);
-
         // Step 3: Execute the query
         const { rows } = await pool_local.query(diseaseCountsQuery, [trendyDiseases]);
-        console.log('Query rows:', rows);
 
         if (!rows || rows.length === 0) {
-            console.log('No data found for trendy diseases');
             return res.status(404).json({ message: 'No data found for trendy diseases' });
         }
 
@@ -54,12 +47,9 @@ const getMonthlyCase = async (req, res) => {
             }
         }));
 
-        console.log('Formatted response:', response);
-
         // Step 5: Send the response
         res.status(200).json(response);
     } catch (error) {
-        console.error('Error fetching trendy disease stats:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
