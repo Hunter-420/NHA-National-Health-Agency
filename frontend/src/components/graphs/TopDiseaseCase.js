@@ -26,6 +26,11 @@ class TopDiseaseCase extends Component {
 
     componentDidMount() {
         this.fetchData();
+        window.addEventListener("resize", this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.handleResize);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -37,27 +42,41 @@ class TopDiseaseCase extends Component {
         }
     }
 
+    handleResize = () => {
+        const chartDom = this.chartRef.current;
+        if (chartDom) {
+            const myChart = echarts.getInstanceByDom(chartDom);
+            if (myChart) {
+                myChart.resize();
+            }
+        }
+    };
+
     updateChart() {
         const { chartData } = this.state;
 
+        const chartDom = this.chartRef.current;
+        const containerWidth = chartDom.offsetWidth;
+        const fontSize = Math.max(10, containerWidth / 50);
+
         const option = {
             title: {
-                text: "Top Disease Case", // Title text
-                left: "center", // Center align the title
-                top: "10", // Place it near the top
+                text: "Top Disease Case",
+                left: "center",
+                top: "10",
                 textStyle: {
-                    fontSize: 18, // Visible font size for the title
-                    fontWeight: "bold", // Bold text
-                    color: "#000", // Black color
+                    fontSize: fontSize * 1.5,
+                    fontWeight: "bold",
+                    color: "#000",
                 },
             },
             legend: {
-                top: 40, // Adjust legend position
+                top: 40,
                 right: "10%",
                 orient: "horizontal",
                 data: ["Admitted", "Discharged", "Emergency"],
                 textStyle: {
-                    fontSize: 12,
+                    fontSize: fontSize,
                 },
                 itemGap: 25,
             },
@@ -68,38 +87,30 @@ class TopDiseaseCase extends Component {
                 },
             },
             grid: {
-                top: 80, // Space for title and legend
-                left: "10%",
+                top: 80,
+                left: "15%", // Increase space for Y-axis title
                 right: "10%",
                 bottom: 50,
             },
             xAxis: {
                 type: "category",
                 data: ["Week 1", "Week 2", "Week 3", "Week 4", "Month"],
-                axisLine: {
-                    lineStyle: {
-                        color: "#000",
-                    },
-                },
                 axisLabel: {
-                    fontSize: 12,
+                    fontSize: fontSize,
                 },
             },
             yAxis: {
                 type: "value",
                 name: "No of Corona Patients",
+                nameLocation: "middle", // Center the title along the Y-axis
+                nameGap: 50, // Space between title and axis labels
                 nameTextStyle: {
-                    fontSize: 15, // Style for the "No of Patients" label
-                    color: "#000000", // Black color
-                    fontWeight: "normal", // Bold text
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: "#000",
-                    },
+                    fontSize: fontSize * 1.2,
+                    color: "#000",
+                    fontWeight: "normal",
                 },
                 axisLabel: {
-                    fontSize: 12,
+                    fontSize: fontSize,
                 },
             },
             series: [
@@ -112,12 +123,7 @@ class TopDiseaseCase extends Component {
                         color: "#3366cc",
                         barBorderRadius: 3,
                     },
-                    label: {
-                        show: false,
-                        position: "insideTop",
-                        fontSize: 10,
-                        color: "#fff",
-                    },
+                    barWidth: "auto",
                 },
                 {
                     name: "Discharged",
@@ -128,19 +134,22 @@ class TopDiseaseCase extends Component {
                         color: "#99ccff",
                         barBorderRadius: 3,
                     },
-                    barWidth: 50,
-                    barCategoryGap: "10%",
-                    label: {
-                        show: false,
-                        position: "insideTop",
-                        fontSize: 10,
-                        color: "#000",
+                    barWidth: "auto",
+                },
+                {
+                    name: "Emergency",
+                    type: "bar",
+                    stack: "Total",
+                    data: chartData.emergency,
+                    itemStyle: {
+                        color: "#ff9933",
+                        barBorderRadius: 3,
                     },
+                    barWidth: "auto",
                 },
             ],
         };
 
-        const chartDom = this.chartRef.current;
         const myChart =
             echarts.getInstanceByDom(chartDom) || echarts.init(chartDom);
         myChart.setOption(option);
@@ -152,9 +161,8 @@ class TopDiseaseCase extends Component {
                 <div
                     ref={this.chartRef}
                     style={{
-                        width: "750px",
-                        height: "550px",
-                        margin: "0 auto",
+                        width: "500px", // Responsive width
+                        height: "400px", // Fixed height
                     }}
                 ></div>
             </div>
