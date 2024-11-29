@@ -1,6 +1,8 @@
 const router = require('express').Router()
-const { getWeeklyCase } = require('../controllers/trendyDiseaseInLastWeek')
+const { getWeeklyCase, getWeeklyDiseaseCaseStats } = require('../controllers/trendyDiseaseInLastWeek')
 
-router.get('/get-weekly-case', getWeeklyCase)
+router
+    .get('/get-weekly-case', getWeeklyCase)
+    .get('/get-weekly-top-disease-stats', getWeeklyDiseaseCaseStats)
 
 module.exports = router

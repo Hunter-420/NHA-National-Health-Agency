@@ -2,7 +2,7 @@ const pool_hib = require('../db/db_hib');
 const pool_local = require('../db/db');
 const queries = require('../queries/hospitalIntegration');
 const extractDistrict = require('../utils/extractDistrict');
-const findProvinceByDistrict = require('../utils/findProvinceByDistrict');
+const { findProvinceByDistrict } = require('../utils/findProvinceByDistrict');
 const { calculateTopDiseaseAndSave } = require('../utils/trendyDiseaseInLastWeek');
 
 const getHibData = async (req, res) => {

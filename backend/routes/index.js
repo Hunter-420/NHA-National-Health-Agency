@@ -11,4 +11,5 @@ const trendRouter = require('./trend')
 router.use('/hi', hiRouter)
 router.use('/trend', trendRouter)
 
+
 module.exports = router
