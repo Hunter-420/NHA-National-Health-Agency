@@ -1,7 +1,6 @@
 # COSMIT: National Health Agency (NHA)
 
-## Orbit Hackathon Documentation  
-**Event**: Orbit Engineering Hacks 2024 
+**Event**: Orbit Engineering Hacks 2024 <br>
 **Team**: COSMIT  
 
 ### 🧑‍🤝‍🧑 Team Members  
@@ -17,11 +16,11 @@
 ### 💡 Project Idea  
 - A **Decision Support System** for health administration and policymakers.  
 - Provides **nationwide health statistics** for informed decision-making.  
-- Acts as a **centralized system** for visualizing and monitoring health trends.  
+- Acts as a **centralized system** for visualizing and monitoring health trends.
+<br>
 
----
 
-## 📝 **Description**  
+### 📝 **Description**  
 The **National Health Agency (NHA)** is a transformative digital platform aimed at revolutionizing healthcare management across the nation. By leveraging cutting-edge technologies, it ensures equitable access to quality healthcare, supports policy implementation, and enhances decision-making through robust data visualization and monitoring tools.
 
 ### 🌟 Key Features:  
@@ -45,8 +44,23 @@ The **National Health Agency (NHA)** is a transformative digital platform aimed 
 5. **🌐 Nationwide Geolocation & Analytics**  
    - Geospatial tools to identify healthcare hotspots and underserved areas.  
    - Supports equitable resource allocation.  
+<br>
 
----
+### ⚠️ Limitations  
+
+1. **Data Inconsistencies**: Nationwide databases may lack uniform standards.  
+2. **Data Privacy**: Ensuring compliance with regulations like GDPR or HIPAA.  
+3. **System Compatibility**: Challenges in integrating with legacy healthcare systems.  
+<br>
+
+### 🧑‍💼 **Stakeholders and Beneficiaries**  
+
+- **Healthcare Administrators**: Resource allocation and performance monitoring.  
+- **Policymakers**: Guiding healthcare policies and ensuring equitable delivery.  
+- **General Public**: Accessing nearby facilities and service details.  
+- **Researchers**: High-quality health data for analysis.  
+<br>
+<br>
 
 ## 💻 Development Environment  
 
@@ -76,23 +90,6 @@ Other tools:
 | **Web Tools**      | Figma (Design), Canva (Presentation)        |
 | **Assistants**     | ChatGPT, Discord (Communication)            |
 | **Documentation**  | Notion, GitHub                              |
-
----
-
-## 🧑‍💼 **Stakeholders and Beneficiaries**  
-
-- **Healthcare Administrators**: Resource allocation and performance monitoring.  
-- **Policymakers**: Guiding healthcare policies and ensuring equitable delivery.  
-- **General Public**: Accessing nearby facilities and service details.  
-- **Researchers**: High-quality health data for analysis.  
-
----
-
-## ⚠️ Limitations  
-
-1. **Data Inconsistencies**: Nationwide databases may lack uniform standards.  
-2. **Data Privacy**: Ensuring compliance with regulations like GDPR or HIPAA.  
-3. **System Compatibility**: Challenges in integrating with legacy healthcare systems.  
 
 ---
 
