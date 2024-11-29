@@ -167,5 +167,5 @@ module.exports = {
     calculateTopDiseaseAndSave,
     findTrendyDisease,
     getWeeklyCaseCount,
-    findMostTrendyDisease
+    findMostTrendyDisease,
 }
