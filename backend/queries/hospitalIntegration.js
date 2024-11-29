@@ -1,4 +1,4 @@
-const getAllData = 'SELECT * FROM tblPatient ORDER BY id ASC'
+const getAllData = 'SELECT * FROM tbl_Patient ORDER BY id ASC'
 
 const getHospitalData = 'SELECT * FROM tblPatient WHERE hospital = $1 ORDER BY id ASC'
 
