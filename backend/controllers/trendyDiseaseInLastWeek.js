@@ -1,7 +1,43 @@
 const pool_local = require('../db/db');
 
+const { getStartOfWeek } = require('../utils/dateUtils');
+
 const { findTrendyDisease, getWeeklyCaseCount, findMostTrendyDisease } = require('../utils/trendyDiseaseInLastWeek');
 // const { findProvinceByDistrict } = require('../utils/findProvinceByDistrict');
+
+
+const getDiseaseDetailProvience = async (req, res) => {
+    const disease = req.params.disease;
+
+    // Get the start and end of the current week
+    const now = new Date();
+    const startOfWeek = getStartOfWeek(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(endOfWeek.getDate() + 7);
+
+    try {
+        const result = await pool_local.query(
+        `SELECT hos_province, COUNT(*) as count
+        FROM tbl_patient
+        WHERE case_name = $1 AND timestamp >= $2 AND timestamp < $3
+        GROUP BY hos_province`,
+        [disease, startOfWeek, endOfWeek]
+        );
+
+        const response = {
+        disease_name: disease,
+        weekly_counts: result.rows.reduce((acc, row) => {
+            acc[row.hos_province] = parseInt(row.count, 10);
+            return acc;
+        }, {}),
+        };
+
+        res.json(response);
+    } catch (error) {
+        console.error('Error executing query', error.stack);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 const getWeeklyCase = async (req, res) => {
     try {
@@ -85,4 +121,5 @@ const getDayOfWeekName = (dow) => {
 module.exports = { 
     getWeeklyCase,
     getWeeklyDiseaseCaseStats,
+    getDiseaseDetailProvience,
 };
