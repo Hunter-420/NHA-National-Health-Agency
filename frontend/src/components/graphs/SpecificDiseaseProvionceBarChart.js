@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios'; // Make sure axios is imported
 
 const SpecificDiseaseProvinceBarChart = () => {
   const { diseaseName } = useParams(); // Get disease name from the URL
   const navigate = useNavigate(); // Get navigate function
-  
+  const [data, setData] = useState(null); // Initial state as null
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Track loading state
+
   const [chartData, setChartData] = useState({
-    labels: ['Province1', 'Province2', 'Province3', 'Province4', 'Province5', 'Province6', 'Province7'],
+    labels: [], // Will be populated dynamically
     datasets: [
       {
         label: 'No. of Admitted Patients',
-        data: [], // Start with empty data
+        data: [], // Will be populated dynamically
         backgroundColor: [], // Colors set dynamically
         barPercentage: 0.7,
         borderRadius: 8,
@@ -22,34 +26,50 @@ const SpecificDiseaseProvinceBarChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Dummy data - Replace this with your data fetching logic
-      const dummyData = [120, 350, 200, 180, 400, 190, 100];
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/trend/get-disease-detail-province/${diseaseName}`);
+        setData(response.data); // Save data directly
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [diseaseName]);
+
+  useEffect(() => {
+    if (data) {
+      // Filter out the 'NULL' province
+      const filteredData = Object.entries(data.weekly_counts).filter(([province]) => province !== 'NULL');
+      
+      const provinces = filteredData.map(([province]) => province); // Get the filtered province names
+      const counts = filteredData.map(([, count]) => count); // Get the counts for each province
 
       // Calculate highest and lowest values
-      const max = Math.max(...dummyData);
-      const min = Math.min(...dummyData);
+      const max = Math.max(...counts);
+      const min = Math.min(...counts);
 
       // Assign colors based on conditions
-      const colors = dummyData.map((value) =>
+      const colors = counts.map((value) =>
         value === max ? 'rgba(255, 0, 0, 0.8)' : value === min ? 'rgba(0, 128, 0, 0.8)' : 'rgba(0, 123, 255, 0.8)'
       );
 
       setChartData({
-        labels: ['Province 1', 'Province 2', 'Province 3', 'Province 4', 'Province 5', 'Province 6', 'Province 7'],
+        labels: provinces, // Use filtered province names as labels
         datasets: [
           {
-            label: 'No. of Admitted Patients',
-            data: dummyData,
+            label: `No. of Admitted Patients for ${diseaseName}`,
+            data: counts,
             backgroundColor: colors,
             barPercentage: 0.7,
             borderRadius: 8,
           },
         ],
       });
-    };
-
-    fetchData();
-  }, []);
+    }
+  }, [data, diseaseName]);
 
   // Function to handle click on a bar
   const handleBarClick = (event) => {
@@ -57,10 +77,10 @@ const SpecificDiseaseProvinceBarChart = () => {
     const activePoints = chart.getElementsAtEventForMode(event.native, 'nearest', { intersect: true }, true);
 
     if (activePoints.length > 0) {
-      const clickedIndex = activePoints[0].index; 
-      let provinceName = chartData.labels[clickedIndex]; 
+      const clickedIndex = activePoints[0].index;
+      let provinceName = chartData.labels[clickedIndex];
       provinceName = provinceName.replace(/\s+/g, '').toLowerCase();
-    
+
       navigate(`/province/${provinceName}/${diseaseName}`);
     }
   };
@@ -106,6 +126,10 @@ const SpecificDiseaseProvinceBarChart = () => {
         ticks: {
           color: '#444',
         },
+        grid: {
+          display: false, // Disable grid lines on the x-axis
+          drawBorder: false, // Remove the vertical line at the edge after the last bar
+        },
       },
       y: {
         title: {
@@ -121,14 +145,25 @@ const SpecificDiseaseProvinceBarChart = () => {
           color: '#444',
           stepSize: 50,
         },
+        grid: {
+          display: true, // Keep grid lines for the y-axis
+          drawBorder: false, // Don't draw border on the y-axis
+        },
       },
     },
     onClick: handleBarClick, // Attach the click handler to the chart
   };
+  
 
   return (
     <div style={{ width: '100%', height: '450px' }}>
-      <Bar data={chartData} options={options} />
+      {loading ? (
+        <p>Loading data...</p>
+      ) : error ? (
+        <p>Error fetching data: {error.message}</p>
+      ) : (
+        <Bar data={chartData} options={options} />
+      )}
       <div style={{ textAlign: 'center', marginTop: '10px' }}>
         <div style={{ display: 'inline-block', marginRight: '15px' }}>
           <span style={{ display: 'inline-block', width: '20px', height: '20px', backgroundColor: 'rgba(255, 0, 0, 0.8)', marginRight: '5px' }}></span>
