@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { getWeeklyCase, getWeeklyDiseaseCaseStats, getDiseaseDetailProvience } = require('../controllers/trendyDiseaseInLastWeek')
-const { getMonthlyCase } = require('../controllers/trendyDiseaseInLastMonth')
+const { getMonthlyCase, getMonthlyCaseStats } = require('../controllers/trendyDiseaseInLastMonth')
 
 router
     .get('/get-weekly-case', getWeeklyCase)
@@ -8,5 +8,6 @@ router
     .get('/get-disease-detail-province/:disease', getDiseaseDetailProvience)
 
     .get('/get-monthly-case', getMonthlyCase)
+    .get('/get-monthly-top-disease-stats', getMonthlyCaseStats)
 
 module.exports = router
