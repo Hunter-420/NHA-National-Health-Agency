@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import * as echarts from 'echarts/core';
+import React, { useEffect, useState } from "react";
+import * as echarts from "echarts/core";
 import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
   LegendComponent,
-} from 'echarts/components';
-import { ScatterChart } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
+} from "echarts/components";
+import { ScatterChart } from "echarts/charts";
+import { CanvasRenderer } from "echarts/renderers";
 
 // Register necessary ECharts components
 echarts.use([
@@ -20,14 +20,27 @@ echarts.use([
 ]);
 
 const AgeGroupVsTimeChart = () => {
-  const containerId = 'ageGroupChart';
+  const containerId = "ageGroupChart";
   const getMonth = new Date().getMonth() + 1; // getMonth() returns 0 for January, so add 1 to get correct month
-  const targetMonth = getMonth.toString().padStart(2, '0'); // Format it as '01', '02', etc.
+  const targetMonth = getMonth.toString().padStart(2, "0"); // Format it as '01', '02', etc.
 
   // Function to generate random data for 100 data points
   const generateRandomData = (numPoints) => {
-    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-    const gender = ['Male', 'Female'];
+    const months = [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+    const gender = ["Male", "Female"];
     const data = [];
 
     // Generate 100 data points with random months, ages, and genders
@@ -37,7 +50,9 @@ const AgeGroupVsTimeChart = () => {
       const randomAge = Math.floor(Math.random() * (100 - 10 + 1)) + 10; // Random age between 10 and 100
       const randomGender = gender[Math.floor(Math.random() * gender.length)];
       // Format date as YYYY-MM-DD
-      const formattedDate = `2024-${randomMonth}-${randomDate.toString().padStart(2, '0')}`;
+      const formattedDate = `2024-${randomMonth}-${randomDate
+        .toString()
+        .padStart(2, "0")}`;
       data.push({ date: formattedDate, age: randomAge, gender: randomGender });
     }
 
@@ -54,21 +69,23 @@ const AgeGroupVsTimeChart = () => {
     }
 
     // Set cursor style to "plus" on the chart container
-    chartDom.style.cursor = 'crosshair'; // Set cursor to "crosshair" (similar to "plus")
+    chartDom.style.cursor = "crosshair"; // Set cursor to "crosshair" (similar to "plus")
 
     const myChart = echarts.init(chartDom);
 
     // Filter the data to include only entries from the target month (January in this case)
-    const filteredData = chartData.filter((d) => d.date.startsWith(`2024-${targetMonth}`));
+    const filteredData = chartData.filter((d) =>
+      d.date.startsWith(`2024-${targetMonth}`)
+    );
 
     // Extract data for Male and Female, and sort them by date
     const femaleData = filteredData
-      .filter((d) => d.gender === 'Female')
+      .filter((d) => d.gender === "Female")
       .map(({ date, age }) => [date, age])
       .sort((a, b) => a[0].localeCompare(b[0])); // Sort by date
 
     const maleData = filteredData
-      .filter((d) => d.gender === 'Male')
+      .filter((d) => d.gender === "Male")
       .map(({ date, age }) => [date, age])
       .sort((a, b) => a[0].localeCompare(b[0])); // Sort by date
 
@@ -86,108 +103,116 @@ const AgeGroupVsTimeChart = () => {
     const maleAvg = calculateAverage(maleData);
 
     // Create the average data points for each gender based on unique dates
-    const femaleAvgData = uniqueDates.map(date => [date, femaleAvg]);
-    const maleAvgData = uniqueDates.map(date => [date, maleAvg]);
+    const femaleAvgData = uniqueDates.map((date) => [date, femaleAvg]);
+    const maleAvgData = uniqueDates.map((date) => [date, maleAvg]);
 
     // Chart Options
     const option = {
       title: {
-        text: 'Corona Analysis: Age Group vs. Time',
-        left: 'center',
+        text: "Corona Analysis: Age Group vs. Time",
+        left: "center",
         textStyle: {
-          color: '#333',
+          color: "#333",
           fontSize: 16,
-          fontWeight: 'bold',
+          fontWeight: "bold",
         },
       },
       grid: {
-        left: '10%',
-        right: '10%',
-        bottom: '20%',
+        left: "15%", // Adjust to give space for the Y-axis label
+        right: "10%",
+        bottom: "20%",
         containLabel: true,
       },
       tooltip: {
-        trigger: 'item',
+        trigger: "item",
         formatter: (params) => {
           return `Gender: ${params.seriesName}<br>Date: ${params.data[0]}<br>Age: ${params.data[1]}`;
         },
       },
       legend: {
-        bottom: '5%',
-        data: ['Female', 'Male'],
+        top: "4%",
+        data: ["Female", "Male"],
         textStyle: {
-          color: '#555',
+          color: "#555",
         },
+        itemGap: 15,
       },
+
       xAxis: {
-        type: 'category',
-        name: 'Date',
-        data: uniqueDates, // Use the unique dates for X-axis
+        type: "category",
+        name: "Date",
+        nameLocation: "middle",
         nameTextStyle: {
-          color: '#444',
+          color: "#444",
           fontSize: 14,
-          fontWeight: 'bold',
+          fontWeight: "bold",
         },
         axisLabel: {
-          color: '#666',
+          color: "#666",
           fontSize: 12,
-          rotate: 45, // Rotate labels for better visibility
+          rotate: 45, // Rotates the label for better visibility
+          bottom: "15%", // Adjust this value to move the labels further down
         },
         axisTick: {
           alignWithLabel: true,
         },
+        nameGap: 30,
+        data: uniqueDates,
       },
       yAxis: {
-        type: 'value',
-        name: 'Age',
+        type: "value",
+        name: "Age",
+        nameLocation: "middle", // Place label in the middle of the axis
+        nameRotate: 90, // Rotate the label vertically
         nameTextStyle: {
-          color: '#444',
+          color: "#444",
           fontSize: 14,
-          fontWeight: 'bold',
+          fontWeight: "bold",
         },
+        nameGap: 50, // Space between the Y-axis and its label
         axisLabel: {
-          color: '#666',
+          color: "#666",
           fontSize: 12,
         },
         splitNumber: 5,
       },
       series: [
         {
-          name: 'Female',
-          type: 'scatter',
+          name: "Female",
+          type: "scatter",
           data: femaleData,
           itemStyle: {
-            color: '#ff7f50',
+            color: "#ff7f50",
           },
           symbolSize: 8,
         },
         {
-          name: 'Male',
-          type: 'scatter',
+          name: "Male",
+          type: "scatter",
           data: maleData,
           itemStyle: {
-            color: '#4682b4',
+            color: "#4682b4",
           },
           symbolSize: 8,
         },
         {
-          name: 'Female Average',
-          type: 'line',
+          name: "Female Average",
+          type: "line",
           data: femaleAvgData,
-          symbol: 'none',
+          symbol: "none",
           lineStyle: {
-            color: '#ff7f50',
-            type: 'dashed',
+            color: "#ff7f50",
+            type: "dashed",
           },
         },
         {
-          name: 'Male Average',
-          type: 'line',
+          name: "Male Average",
+          type: "line",
           data: maleAvgData,
-          symbol: 'none',
+          symbol: "none",
           lineStyle: {
-            color: '#4682b4',
-            type: 'dashed',
+            color: "#4682b4",
+            type: "dashed",
           },
         },
       ],
@@ -200,8 +225,7 @@ const AgeGroupVsTimeChart = () => {
     };
   }, [chartData]);
 
-  return <div id={containerId} style={{ width: '100%', height: '700px' }} />;
+  return <div id={containerId} style={{ width: "100%", height: "700px" }} />;
 };
 
 export default AgeGroupVsTimeChart;
-

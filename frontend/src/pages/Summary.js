@@ -1,9 +1,10 @@
 import React from 'react'
+import AgeGroupVsTimeChart from '../components/graphs/AgeGroupVsTimeChart'
 
 function Summary() {
   return (
     <div>
-      dasd
+      <AgeGroupVsTimeChart/>
     </div>
   )
 }
