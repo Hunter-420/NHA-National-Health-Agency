@@ -8,6 +8,7 @@ import {
 } from "echarts/components";
 import { ScatterChart } from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
+import axios from 'axios';
 
 // Register necessary ECharts components
 echarts.use([
@@ -20,46 +21,53 @@ echarts.use([
 ]);
 
 const AgeGroupVsTimeChart = () => {
+  const [data, setData] = useState(null); // Initial state as null
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Track loading state
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/pan`);
+        setData(response.data); // Save data directly
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+    console.log(data)
+
   const containerId = "ageGroupChart";
   const getMonth = new Date().getMonth() + 1; // getMonth() returns 0 for January, so add 1 to get correct month
   const targetMonth = getMonth.toString().padStart(2, "0"); // Format it as '01', '02', etc.
 
-  // Function to generate random data for 100 data points
-  const generateRandomData = (numPoints) => {
+  // Function to filter and prepare the data
+  const processData = (rawData) => {
     const months = [
-      "01",
-      "02",
-      "03",
-      "04",
-      "05",
-      "06",
-      "07",
-      "08",
-      "09",
-      "10",
-      "11",
-      "12",
+      "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
     ];
     const gender = ["Male", "Female"];
-    const data = [];
+    const processedData = rawData.map((entry) => {
+      const date = new Date(entry.timestamp);
+      const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Get month as '01', '02', ...
+      const day = date.getDate().toString().padStart(2, "0"); // Day in 'DD' format
+      const formattedDate = `2024-${month}-${day}`; // Format as '2024-MM-DD'
 
-    // Generate 100 data points with random months, ages, and genders
-    for (let i = 0; i < numPoints; i++) {
-      const randomMonth = months[Math.floor(Math.random() * months.length)];
-      const randomDate = Math.floor(Math.random() * 28) + 1; // Random date between 1 and 28
-      const randomAge = Math.floor(Math.random() * (100 - 10 + 1)) + 10; // Random age between 10 and 100
-      const randomGender = gender[Math.floor(Math.random() * gender.length)];
-      // Format date as YYYY-MM-DD
-      const formattedDate = `2024-${randomMonth}-${randomDate
-        .toString()
-        .padStart(2, "0")}`;
-      data.push({ date: formattedDate, age: randomAge, gender: randomGender });
-    }
+      return {
+        date: formattedDate,
+        age: entry.age,
+        gender: entry.gender,
+      };
+    });
 
-    return data;
+    return processedData.filter((d) => months.includes(d.date.slice(5, 7)));
   };
 
-  const chartData = generateRandomData(3000); // Generate 100 random data points
+  const chartData = data ? processData(data.data) : []; // Processed data after API call
 
   useEffect(() => {
     const chartDom = document.getElementById(containerId);
@@ -73,7 +81,7 @@ const AgeGroupVsTimeChart = () => {
 
     const myChart = echarts.init(chartDom);
 
-    // Filter the data to include only entries from the target month (January in this case)
+    // Filter the data to include only entries from the target month
     const filteredData = chartData.filter((d) =>
       d.date.startsWith(`2024-${targetMonth}`)
     );
@@ -109,7 +117,7 @@ const AgeGroupVsTimeChart = () => {
     // Chart Options
     const option = {
       title: {
-        text: "Corona Analysis: Age Group vs. Time",
+        text: `${data?.disease_name} Analysis: Age Group vs. Time`,
         left: "center",
         textStyle: {
           color: "#333",
@@ -140,7 +148,6 @@ const AgeGroupVsTimeChart = () => {
 
       xAxis: {
         type: "category",
-        name: "Date",
         nameLocation: "middle",
         nameTextStyle: {
           color: "#444",
@@ -151,7 +158,6 @@ const AgeGroupVsTimeChart = () => {
           color: "#666",
           fontSize: 12,
           rotate: 45, // Rotates the label for better visibility
-          bottom: "15%", // Adjust this value to move the labels further down
         },
         axisTick: {
           alignWithLabel: true,

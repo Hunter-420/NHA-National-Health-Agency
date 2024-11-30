@@ -8,7 +8,7 @@ import Hosptital from './pages/Hosptital';
 import Summary from './pages/Summary';
 import MainContent from './components/MainContent/MainContent';
 import SpecificDiseaseProvinceBarChart from './components/graphs/SpecificDiseaseProvionceBarChart';
-import Provience from './pages/Provience';
+import ProvienceMap from './pages/ProvienceMap';
 
 
 function App() {
@@ -21,10 +21,12 @@ function App() {
           <Route path="overview" element={<Overview />} />
  <Route path="district" element={<District />} />
           <Route path="department" element={<Department />} />
+          
+
           <Route path="hospital" element={<Hosptital />} />
           <Route path="summary" element={<Summary />} /> */
           <Route path='province/:diseaseName' element={<SpecificDiseaseProvinceBarChart/>}/>
-          <Route path='province/:provinceName/:diseaseName' element={<Provience/>}/>
+          <Route path='province/:province/:case_name' element={<ProvienceMap/>}/>
 
 
         </Route>

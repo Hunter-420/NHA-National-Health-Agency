@@ -1,16 +1,16 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import Leaflet from '../components/leaflet/Leaflet';
 
-function Provience() {
+function ProvienceMap() {
      const {provinceName,diseaseName}= useParams();
   return (
     <div>
-         <h1>
-             {provinceName}
-         </h1>
-          <p>{diseaseName}</p>
+
+      <Leaflet/>
+         
     </div>
   )
 }
 
-export default Provience
+export default ProvienceMap
