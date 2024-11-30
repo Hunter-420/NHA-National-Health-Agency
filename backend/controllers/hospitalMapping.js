@@ -9,22 +9,12 @@ const hospitalMapping = async (req, res) => {
             return res.status(400).json({ error: "Province and case_name are required" });
         }
 
-        console.log('Province:', province);
-        console.log('Case Name:', case_name);
-
         if (!province || !case_name) {
             return res.status(400).json({ error: "Province and case_name are required" });
         }
 
-        // Log the request parameters
-        console.log('Province:', province);
-        console.log('Case Name:', case_name);
-
         // Fetch the list of hospitals in the specified province
         const hospitalsInProvince = hospitals.filter(hospital => hospital.province && hospital.province.toLowerCase() === province.toLowerCase());
-
-        // Log the hospitals in the specified province
-        console.log('Hospitals in Province:', hospitalsInProvince);
 
         // Query to fetch the number of patients for the given case_name and province
         const patientQuery = `
@@ -34,9 +24,6 @@ const hospitalMapping = async (req, res) => {
             GROUP BY hos_name;
         `;
         const patientResult = await pool_local.query(patientQuery, [province, case_name]);
-
-        // Log the query result
-        console.log('Patient Query Result:', patientResult.rows);
 
         // Create a dictionary to store patient counts by hospital
         const patientCounts = patientResult.rows.reduce((acc, row) => {
@@ -59,7 +46,7 @@ const hospitalMapping = async (req, res) => {
         });
 
         // Return the response as per the desired format
-        res.json({ [province]: hospitalsWithPatients });
+        res.status(200).json({ [province]: hospitalsWithPatients });
 
     } catch (err) {
         res.status(500).json({ error: err.message });
