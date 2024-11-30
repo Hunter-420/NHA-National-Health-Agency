@@ -6,8 +6,8 @@ import MonthlyTopDiseaseChart from '../../pages/MonthlyTopDiseaseChart';
 
 function MainContent() {
   return (
-    <main className="flex-1 h-full bg-gray-100  pt-5 ">
-      <h1 className="text-5xl font-semibold text-gray-700 mb-4">
+    <main className="flex-1 h-full bg-gray-100  pt-5 " style={{fontFamily: "'IBM Plex Serif', serif"}}>
+      <h1 className="text-5xl font-semibold text-gray-700 mb-4 leading-[1.3]"  >
         Generating national health insights.<br />
         Securing the Future.
       </h1>
