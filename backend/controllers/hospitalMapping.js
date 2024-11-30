@@ -95,7 +95,7 @@ const mapingForTopDisease = async (req, res) => {
         const response = {
             disease_name: disease,
             weekly_counts: weeklyCounts,
-            province: province // Add the province with the highest count
+            province: 'Bagmati' 
         };
 
         res.status(200).json(response);
