@@ -113,6 +113,5 @@ The architecture follows a modern microservices approach with a REST API for com
 - **Cloud Scalability**: Scale the platform using cloud infrastructure for improved performance and security.
 
 <br>
----
-
+<hr>
 *COSMIT: Building the future of healthcare with data-driven solutions.* 🌐
