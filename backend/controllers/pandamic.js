@@ -14,19 +14,17 @@ const pandamic = async (req, res) => {
 
         // Step 2: Query to get the relevant patient data for the most trendy disease
         const query = `
-            SELECT pat_sex AS gender, timestamp
+            SELECT pat_sex AS gender, timestamp, pat_age AS age
             FROM tbl_patient
             WHERE case_name = $1
         `;
         const values = [disease_name];
         
         const result = await pool_local.query(query, values);
-        console.log('Query:', query);
-        console.log('Values:', values);
-        console.log('Query result:', result.rows);
         
         // Step 3: Formatting the data as required
         const data = result.rows.map(row => ({
+            age: row.age,
             gender: row.gender,
             timestamp: row.timestamp
         }));
