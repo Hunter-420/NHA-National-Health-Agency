@@ -2,6 +2,7 @@ const router = require('express').Router()
 
 const hiRouter = require('./hospitalIntegration')
 const trendRouter = require('./trend')
+const hmRouter = require('./hospitalMapping')
 
 /* MIDDLEWARES */
 
@@ -10,6 +11,7 @@ const trendRouter = require('./trend')
 /* ROUTES */
 router.use('/hi', hiRouter)
 router.use('/trend', trendRouter)
+router.use('/hm', hmRouter)
 
 
 module.exports = router
