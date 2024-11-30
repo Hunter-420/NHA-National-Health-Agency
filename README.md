@@ -45,22 +45,8 @@ The **National Health Agency (NHA)** is a transformative digital platform aimed 
    - Geospatial tools to identify healthcare hotspots and underserved areas.  
    - Supports equitable resource allocation.  
 <br>
-
-### ⚠️ Limitations  
-
-1. **Data Inconsistencies**: Nationwide databases may lack uniform standards.  
-2. **Data Privacy**: Ensuring compliance with regulations like GDPR or HIPAA.  
-3. **System Compatibility**: Challenges in integrating with legacy healthcare systems.  
 <br>
 
-### 🧑‍💼 **Stakeholders and Beneficiaries**  
-
-- **Healthcare Administrators**: Resource allocation and performance monitoring.  
-- **Policymakers**: Guiding healthcare policies and ensuring equitable delivery.  
-- **General Public**: Accessing nearby facilities and service details.  
-- **Researchers**: High-quality health data for analysis.  
-<br>
-<br>
 
 ## 💻 Development Environment  
 
@@ -91,6 +77,42 @@ Other tools:
 | **Assistants**     | ChatGPT, Discord (Communication)            |
 | **Documentation**  | Notion, GitHub                              |
 
+<br>
+<br>
+
+## Architecture
+The architecture follows a modern microservices approach with a REST API for communication between the frontend and backend, and a NoSQL database for scalability.
+![architecture](https://github.com/user-attachments/assets/8f6c0e7f-e994-483d-acc8-df67bcd84eb6)
+
+<br>
+<br>
+
+### ⚠️ Limitations  
+
+1. **Data Inconsistencies**: Nationwide databases may lack uniform standards.  
+2. **Data Privacy**: Ensuring compliance with regulations like GDPR or HIPAA.  
+3. **System Compatibility**: Challenges in integrating with legacy healthcare systems.  
+<br>
+
+### 🧑‍💼 **Stakeholders and Beneficiaries**  
+
+- **Healthcare Administrators**: Resource allocation and performance monitoring.  
+- **Policymakers**: Guiding healthcare policies and ensuring equitable delivery.  
+- **General Public**: Accessing nearby facilities and service details.  
+- **Researchers**: High-quality health data for analysis.  
+
+<br>
+<br>
+
+## **Future Scope**
+
+- **AI Integration**: Smart suggestions for decision makers to assist calculated aid.
+- **Data Analytics**: Analysis and Prediction for upcoming cases and growth rate.
+- **Enhanced Data Privacy & Compliance**: Ensure ongoing compliance with global data privacy laws like GDPR.
+- **Community Engagement Features**: Introduce forums and health resources to boost user participation.
+- **Cloud Scalability**: Scale the platform using cloud infrastructure for improved performance and security.
+
+<br>
 ---
 
 *COSMIT: Building the future of healthcare with data-driven solutions.* 🌐
