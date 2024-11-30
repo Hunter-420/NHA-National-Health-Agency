@@ -1,5 +1,8 @@
 const pool_local = require('../db/db');
 const { getHospitalLocation, hospitals } = require('../utils/hospitalMapping');
+const { findMostTrendyDisease } = require('../utils/trendyDiseaseInLastWeek');
+const { findProvinceByDistrict } = require('../utils/findProvinceByDistrict');
+const { getStartOfWeek } = require('../utils/dateUtils');
 
 const hospitalMapping = async (req, res) => {
     try {
@@ -53,6 +56,61 @@ const hospitalMapping = async (req, res) => {
     }
 }
 
+const mapingForTopDisease = async (req, res) => {
+    // Get the start and end of the current week
+    const now = new Date();
+    const startOfWeek = getStartOfWeek(new Date(now.getFullYear(), now.getMonth(), now.getDate()));
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(endOfWeek.getDate() + 7);
+    
+    try {
+        const trendyDisease = await findMostTrendyDisease();
+
+        const disease = trendyDisease.disease_name;
+
+        const result = await pool_local.query(
+        `SELECT hos_province, COUNT(*) as count
+        FROM tbl_patient
+        WHERE case_name = $1 AND timestamp >= $2 AND timestamp < $3
+        GROUP BY hos_province`,
+        [disease, startOfWeek, endOfWeek]
+        );
+
+        const weeklyCounts = result.rows.reduce((acc, row) => {
+            // Skip NULL and store the counts
+            if (row.hos_province !== 'NULL') {
+                acc[row.hos_province] = parseInt(row.count, 10);
+            }
+            return acc;
+        }, {});
+
+        // Find the province with the highest count
+        const province = Object.entries(weeklyCounts).reduce((maxProvince, [province, count]) => {
+            if (count > maxProvince.count) {
+                return { province, count };
+            }
+            return maxProvince;
+        }, { province: null, count: -Infinity }).province;
+
+        const response = {
+            disease_name: disease,
+            weekly_counts: weeklyCounts,
+            province: province // Add the province with the highest count
+        };
+
+        res.status(200).json(response);
+    
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+// Helper function to map DOW integer to day of the week name
+const getDayOfWeekName = (dow) => {
+    const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    return days[dow];
+};
 module.exports = {
     hospitalMapping,
+    mapingForTopDisease,
 }

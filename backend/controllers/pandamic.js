@@ -6,7 +6,6 @@ const pandamic = async (req, res) => {
         // Step 1: Fetch the most trendy disease
         const disease = await findMostTrendyDisease();
         const disease_name = disease.disease_name;
-        console.log('Most trendy disease:', disease_name);
         
         if (!disease_name) {
             return res.status(404).json({ error: 'No trendy disease found' });
@@ -28,8 +27,6 @@ const pandamic = async (req, res) => {
             gender: row.gender,
             timestamp: row.timestamp
         }));
-        
-        console.log('Formatted data:', data);
 
         // Step 4: Sending the formatted response
         res.status(200).json({
